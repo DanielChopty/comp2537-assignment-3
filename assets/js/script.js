@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startBtn.addEventListener('click', startGame);
     resetBtn.addEventListener('click', resetGame);
 
-    // Theme toggle functionality
+    // Theme toggle
     themeToggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
         document.body.classList.toggle('light-theme');
