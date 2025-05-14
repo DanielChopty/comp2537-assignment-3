@@ -20,8 +20,8 @@ body {
     justify-content: center; /* Horizontally center */
     align-items: center; /* Vertically center */
     width: 100%;
-    height: 100%; /* To make sure it's centered even if the page has extra space */
-    padding: 10px; /* Padding around the grid */
+    height: 100%; /* Ensure it's centered even if the page has extra space */
+    padding: 20px; /* Padding around the grid */
 }
 
 /* Card Container */
@@ -29,16 +29,11 @@ body {
     display: grid;
     gap: 10px;
     grid-template-columns: repeat(4, 1fr); /* 4 columns for all difficulties */
+    padding: 10px;
     width: 100%;  /* Ensure the container width fills up the space */
     max-width: 520px; /* Max width to avoid stretching */
     box-sizing: border-box; /* Ensures padding and border are included in the width/height calculation */
-    transition: border 0.3s ease; /* Smooth transition for border */
-    padding: 0;  /* Remove internal padding */
-}
-
-/* Add border when cards are added */
-.cards-container.has-cards {
-    border: 3px solid purple;  /* Purple border */
+    border: 3px solid purple; /* Purple border around the cards */
 }
 
 /* Default grid settings for Easy (4x3) */
