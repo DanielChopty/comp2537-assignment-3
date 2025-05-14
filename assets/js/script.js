@@ -37,44 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }));
     };
 
-    const startGame = async () => {
-        clicks = 0;
-        pairsMatched = 0;
-        flippedCards = [];
-        clearInterval(timer);
-        gameTimer = difficultySelect.value === 'easy' ? 60 : (difficultySelect.value === 'medium' ? 45 : 30);
-        timerDisplay.textContent = gameTimer;
-        totalPairs = difficultySelect.value === 'easy' ? 6 : (difficultySelect.value === 'medium' ? 8 : 10);
-        pairsLeftDisplay.textContent = totalPairs;
-
-        await generateGameData();
-        createCards();
-        startTimer();
-    };
-
-    const startTimer = () => {
-        timer = setInterval(() => {
-            if (gameTimer > 0) {
-                gameTimer--;
-                timerDisplay.textContent = gameTimer;
-            } else {
-                clearInterval(timer);
-                alert("Game Over! Time's up!");
-            }
-        }, 1000);
-    };
-
     const createCards = () => {
-        cardsContainer.innerHTML = '';
         const shuffledCards = [...cardData, ...cardData].sort(() => Math.random() - 0.5);
+        cardsContainer.innerHTML = '';
         shuffledCards.forEach(card => {
             const cardElement = document.createElement('div');
             cardElement.classList.add('card');
+            cardElement.setAttribute('data-id', card.id);
             cardElement.innerHTML = `
                 <div class="card-inner">
                     <div class="card-front"></div>
                     <div class="card-back">
-                        <img src="${card.image}" alt="${card.name}">
+                        <img src="${card.image}" alt="${card.name}" />
                     </div>
                 </div>
             `;
@@ -94,22 +68,20 @@ document.addEventListener('DOMContentLoaded', () => {
         clicksDisplay.textContent = clicks;
 
         if (flippedCards.length === 2) {
-            checkMatch();
+            setTimeout(() => checkMatch(), 500); // Delay for animation
         }
     };
 
     const checkMatch = () => {
         const [firstCard, secondCard] = flippedCards;
-        const firstPokemon = firstCard.querySelector('.card-back img').src;
-        const secondPokemon = secondCard.querySelector('.card-back img').src;
+        const firstCardId = firstCard.getAttribute('data-id');
+        const secondCardId = secondCard.getAttribute('data-id');
 
-        if (firstPokemon === secondPokemon) {
+        if (firstCardId === secondCardId) {
             pairsMatched++;
-            pairsLeftDisplay.textContent = totalPairs - pairsMatched;
             flippedCards = [];
-
-            if (pairsMatched === totalPairs) {
-                alert("You win! All pairs matched.");
+            if (pairsMatched === totalPairs) { // All pairs matched
+                alert("You win!");
             }
         } else {
             setTimeout(() => {
@@ -118,16 +90,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 flippedCards = [];
             }, 1000);
         }
+        updateStats();
+    };
+
+    const updateStats = () => {
+        document.getElementById('clicks').textContent = clicks;
+        document.getElementById('pairs-left').textContent = totalPairs - pairsMatched;
+    };
+
+    const startTimer = () => {
+        const timerInterval = setInterval(() => {
+            if (gameTimer > 0) {
+                gameTimer--;
+                timerDisplay.textContent = gameTimer;
+            } else {
+                clearInterval(timerInterval);
+                alert("Game over! Time's up!");
+            }
+        }, 1000);
     };
 
     const resetGame = () => {
         cardsContainer.innerHTML = '';
-        timerDisplay.textContent = 60;
-        clicksDisplay.textContent = 0;
-        pairsLeftDisplay.textContent = totalPairs;
+        createCards();
+        pairsMatched = 0;
+        clicks = 0;
+        gameTimer = 60;
+        timerDisplay.textContent = gameTimer;
+        updateStats();
+    };
+
+    const startGame = async () => {
+        pairsMatched = 0;
+        flippedCards = [];
+        clicks = 0;
+        document.getElementById('clicks').textContent = clicks;
+
+        const difficulty = difficultySelect.value;
+        totalPairs = difficulty === 'easy' ? 6 : (difficulty === 'medium' ? 8 : 10);
+        gameTimer = difficulty === 'easy' ? 60 : (difficulty === 'medium' ? 45 : 30);
+        document.getElementById('pairs-left').textContent = totalPairs;
+
+        await generateGameData();
+        createCards();
+        startTimer();
     };
 
     startBtn.addEventListener('click', startGame);
     resetBtn.addEventListener('click', resetGame);
-    themeSelect.addEventListener('change', (e) => document.body.className = e.target.value + '-theme');
+
+    themeSelect.addEventListener('change', (e) => {
+        document.body.className = e.target.value + '-theme';
+    });
 });
