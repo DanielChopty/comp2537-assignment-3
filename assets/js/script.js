@@ -60,19 +60,23 @@ document.addEventListener('DOMContentLoaded', () => {
             cardsContainer.appendChild(cardElement);
         });
 
+        // Set the grid layout based on selected difficulty
+        const difficulty = difficultySelect.value;
+        if (difficulty === 'easy') {
+            cardsContainer.classList.add('easy');
+            cardsContainer.classList.remove('medium', 'hard');
+        } else if (difficulty === 'medium') {
+            cardsContainer.classList.add('medium');
+            cardsContainer.classList.remove('easy', 'hard');
+        } else if (difficulty === 'hard') {
+            cardsContainer.classList.add('hard');
+            cardsContainer.classList.remove('easy', 'medium');
+        }
+
+        // Add event listeners to all cards
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', () => flipCard(card));
         });
-
-        // Adjust grid layout based on difficulty
-        const difficulty = difficultySelect.value;
-        if (difficulty === 'easy') {
-            cardsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
-        } else if (difficulty === 'medium') {
-            cardsContainer.style.gridTemplateColumns = 'repeat(4, 1fr)';
-        } else if (difficulty === 'hard') {
-            cardsContainer.style.gridTemplateColumns = 'repeat(5, 1fr)';
-        }
     };
 
     const flipCard = (card) => {

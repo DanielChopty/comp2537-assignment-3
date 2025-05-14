@@ -24,12 +24,16 @@
             <div class="controls mt-3">
                 <button id="start-btn" class="btn btn-primary">Start Game</button>
                 <button id="reset-btn" class="btn btn-danger">Reset Game</button>
-                <label for="difficulty">Difficulty:</label>
-                <select id="difficulty" class="form-select d-inline-block">
-                    <option value="easy" selected>Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
-                </select>
+                
+                <div class="d-flex align-items-center">
+                    <!-- Label and dropdown inside a flexbox for proper alignment -->
+                    <label for="difficulty" class="me-2">Difficulty:</label>
+                    <select id="difficulty" class="form-select d-inline-block">
+                        <option value="easy" selected>Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
             </div>
         </header>
 
