@@ -14,11 +14,19 @@ body {
     color: white;
 }
 
+/* Center the grid container */
+.cards-container-wrapper {
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    width: 100%;
+    height: 100%; /* To make sure it's centered even if the page has extra space */
+}
+
 /* Card Container */
 .cards-container {
     display: grid;
     gap: 10px;
-    justify-content: center;
     margin-top: 20px;
     grid-template-columns: repeat(4, 1fr); /* 4 columns for all difficulties */
     padding: 10px; /* Padding inside the grid */
