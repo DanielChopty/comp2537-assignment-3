@@ -65,18 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (difficulty === 'easy') {
             cardsContainer.classList.add('easy');
             cardsContainer.classList.remove('medium', 'hard');
+            totalPairs = 6; // Easy = 6 pairs
         } else if (difficulty === 'medium') {
             cardsContainer.classList.add('medium');
             cardsContainer.classList.remove('easy', 'hard');
+            totalPairs = 8; // Medium = 8 pairs
         } else if (difficulty === 'hard') {
             cardsContainer.classList.add('hard');
             cardsContainer.classList.remove('easy', 'medium');
+            totalPairs = 10; // Hard = 10 pairs
         }
 
-        // Add event listeners to all cards
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', () => flipCard(card));
-        });
+        pairsLeftDisplay.textContent = totalPairs;
+        createCards();
     };
 
     const flipCard = (card) => {
@@ -114,13 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const updateStats = () => {
-        totalPairsDisplay.textContent = totalPairs;
-        pairsLeftDisplay.textContent = totalPairs - pairsMatched;
-        clicksDisplay.textContent = clicks;
-        matchesDisplay.textContent = pairsMatched;
-    };
-
     const startTimer = () => {
         timer = setInterval(() => {
             if (gameTimer > 0) {
@@ -143,22 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
         pairsLeftDisplay.textContent = totalPairs;
         timerDisplay.textContent = `${gameTimer}s`;
         updateStats();
-    };
-
-    const startGame = async () => {
-        pairsMatched = 0;
-        flippedCards = [];
-        clicks = 0;
-        document.getElementById('clicks').textContent = clicks;
-
-        const difficulty = difficultySelect.value;
-        totalPairs = difficulty === 'easy' ? 6 : (difficulty === 'medium' ? 8 : 10);
-        gameTimer = difficulty === 'easy' ? 100 : (difficulty === 'medium' ? 60 : 45);
-        document.getElementById('pairs-left').textContent = totalPairs;
-
-        await generateGameData();
-        createCards();
-        startTimer();
     };
 
     startBtn.addEventListener('click', startGame);
