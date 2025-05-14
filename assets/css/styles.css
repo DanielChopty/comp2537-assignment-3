@@ -23,15 +23,23 @@ body {
 /* Container for the game */
 .container {
     display: flex;
+    justify-content: center;    /* Center horizontally */
+    align-items: center;        /* Center vertically */
     flex-direction: column;     /* Stack content vertically */
-    justify-content: center;    /* Center content horizontally */
-    align-items: center;        /* Center content vertically */
-    padding: 20px;
     width: 100%;
     height: 100%; /* Ensures full viewport height for centering */
+    padding: 20px;
 }
 
 /* Card Container */
+.cards-wrapper {
+    display: flex;
+    justify-content: center;   /* Center the cards container horizontally */
+    align-items: center;       /* Center vertically */
+    width: 100%;
+}
+
+/* Main grid */
 .cards-container {
     display: grid;
     gap: 10px;
@@ -42,7 +50,6 @@ body {
     box-sizing: border-box; /* Ensures padding and border are included in the width/height calculation */
     transition: border 0.3s ease; /* Smooth transition for border */
     justify-items: center;  /* Center the cards inside grid cells */
-    border: none; /* Border will be added dynamically */
     align-items: center; /* Ensure grid items are centered within each grid cell */
 }
 
