@@ -94,9 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const checkMatch = () => {
         const [firstCard, secondCard] = flippedCards;
-        const firstCardId = firstCard.getAttribute('data-id');
-        const secondCardId = secondCard.getAttribute('data-id');
-
         const firstCardImage = firstCard.querySelector('.card-back img').src;
         const secondCardImage = secondCard.querySelector('.card-back img').src;
 
@@ -149,12 +146,30 @@ document.addEventListener('DOMContentLoaded', () => {
         flippedCards = [];
         pairsMatched = 0;
         clicks = 0;
-        gameTimer = initialTime;  // Reset to initial difficulty timer value
+        
+        // Reset timer based on selected difficulty
+        const difficulty = difficultySelect.value;
+        if (difficulty === 'easy') {
+            gameTimer = 120;
+        } else if (difficulty === 'medium') {
+            gameTimer = 90;
+        } else if (difficulty === 'hard') {
+            gameTimer = 60;
+        }
         timerDisplay.textContent = `${gameTimer}s`; // Set timer display to initial time
-        totalPairs = difficultySelect.value === 'easy' ? 6 : (difficultySelect.value === 'medium' ? 8 : 10);
+
+        // Reset total pairs based on difficulty
+        if (difficulty === 'easy') {
+            totalPairs = 6;
+        } else if (difficulty === 'medium') {
+            totalPairs = 8;
+        } else if (difficulty === 'hard') {
+            totalPairs = 10;
+        }
         pairsLeftDisplay.textContent = totalPairs;
         clicksDisplay.textContent = clicks;
         matchesDisplay.textContent = pairsMatched;
+
         stopTimer(); // Stop timer when reset
     };
 
@@ -168,7 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('clicks').textContent = clicks;
 
         const difficulty = difficultySelect.value;
-        totalPairs = difficulty === 'easy' ? 6 : (difficulty === 'medium' ? 8 : 10);
+
+        // Set initial game timer based on difficulty
         if (difficulty === 'easy') {
             gameTimer = 120;
         } else if (difficulty === 'medium') {
@@ -176,7 +192,15 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (difficulty === 'hard') {
             gameTimer = 60;
         }
-        initialTime = gameTimer;  // Store initial time value for reset
+
+        // Set total pairs based on difficulty
+        if (difficulty === 'easy') {
+            totalPairs = 6;
+        } else if (difficulty === 'medium') {
+            totalPairs = 8;
+        } else if (difficulty === 'hard') {
+            totalPairs = 10;
+        }
         document.getElementById('pairs-left').textContent = totalPairs;
 
         await generateGameData();
