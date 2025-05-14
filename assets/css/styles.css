@@ -21,8 +21,13 @@ body {
     justify-content: center;
     margin-top: 20px;
     grid-template-columns: repeat(4, 1fr); /* 4 columns for all difficulties */
-    border: 3px solid red;  /* Adding a red border around the grid */
-    padding: 10px;  /* Optional: To give some space inside the border */
+    padding: 10px; /* Ensure even spacing between cards and border */
+    transition: border 0.3s ease; /* Smooth transition for border */
+}
+
+/* Add border when cards are added */
+.cards-container.has-cards {
+    border: 3px solid purple;  /* Purple border */
 }
 
 /* Default grid settings for Easy (4x3) */

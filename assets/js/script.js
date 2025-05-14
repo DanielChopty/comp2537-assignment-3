@@ -18,14 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameTimer = 100; // Default timer for "easy" difficulty
     let cardData = [];
 
-    // Function to fetch the Pokemon data from the API
     const fetchPokemonData = async () => {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1500');
         const data = await response.json();
         return data.results;
     };
 
-    // Function to generate random game data
     const generateGameData = async () => {
         const pokemonList = await fetchPokemonData();
         const selectedPokemons = [];
@@ -42,12 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }));
     };
 
-    // Function to create the cards dynamically
     const createCards = () => {
         const shuffledCards = [...cardData, ...cardData].sort(() => Math.random() - 0.5);
         cardsContainer.innerHTML = '';  // Clear existing cards
 
-        // Dynamically create card elements
         shuffledCards.forEach(card => {
             const cardElement = document.createElement('div');
             cardElement.classList.add('card');
@@ -80,6 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
             totalPairs = 10; // Hard = 10 pairs
         }
 
+        // Add the class to show the border when cards are added
+        cardsContainer.classList.add('has-cards');
+
         // Update the number of pairs left
         pairsLeftDisplay.textContent = totalPairs;
 
@@ -89,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Function to flip cards when clicked
     const flipCard = (card) => {
         if (flippedCards.length === 2 || card.classList.contains('flipped')) return;
         card.classList.add('flipped');
@@ -102,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Function to check if two flipped cards match
     const checkMatch = () => {
         const [firstCard, secondCard] = flippedCards;
         const firstCardImage = firstCard.querySelector('.card-back img').src;
@@ -126,7 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Start timer when the game starts
+    const updateStats = () => {
+        totalPairsDisplay.textContent = totalPairs;
+        pairsLeftDisplay.textContent = totalPairs - pairsMatched;
+        clicksDisplay.textContent = clicks;
+        matchesDisplay.textContent = pairsMatched;
+    };
+
     const startTimer = () => {
         timer = setInterval(() => {
             if (gameTimer > 0) {
@@ -139,9 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     };
 
-    // Reset the game
     const resetGame = () => {
         cardsContainer.innerHTML = '';  // Clear existing cards
+        cardsContainer.classList.remove('has-cards');  // Remove border
         createCards();
         pairsMatched = 0;
         clicks = 0;
