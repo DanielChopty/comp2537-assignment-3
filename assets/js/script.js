@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let pairsMatched = 0;
     let totalPairs = 0;
     let flippedCards = [];
-    let gameTimer = 100; // Default timer for "easy" difficulty
+    let gameTimer = 100; // Default timer for easy difficulty
     let cardData = [];
 
     const fetchPokemonData = async () => {
