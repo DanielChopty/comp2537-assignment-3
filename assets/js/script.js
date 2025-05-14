@@ -93,9 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const checkMatch = () => {
         const [firstCard, secondCard] = flippedCards;
-        const firstCardId = firstCard.getAttribute('data-id');
-        const secondCardId = secondCard.getAttribute('data-id');
-
         const firstCardImage = firstCard.querySelector('.card-back img').src;
         const secondCardImage = secondCard.querySelector('.card-back img').src;
 
@@ -167,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startBtn.addEventListener('click', startGame);
     resetBtn.addEventListener('click', resetGame);
 
-    // Theme toggle
+    // Theme toggle functionality
     themeToggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
         document.body.classList.toggle('light-theme');

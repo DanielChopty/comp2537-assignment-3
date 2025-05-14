@@ -20,23 +20,22 @@ body {
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    grid-auto-rows: 100px; /* Set automatic row height */
 }
 
-/* Default grid template for Easy difficulty (4x3) */
+/* Default grid for Easy difficulty (4x3) */
 .cards-container.easy {
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
     grid-template-rows: repeat(3, 1fr); /* 3 rows (Easy) */
 }
 
 /* Grid template for Medium difficulty (4x4) */
 .cards-container.medium {
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
     grid-template-rows: repeat(4, 1fr); /* 4 rows (Medium) */
 }
 
 /* Grid template for Hard difficulty (4x5) */
 .cards-container.hard {
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
     grid-template-rows: repeat(5, 1fr); /* 5 rows (Hard) */
 }
 
