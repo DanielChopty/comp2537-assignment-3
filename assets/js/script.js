@@ -63,6 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
             cardsContainer.appendChild(cardElement);
         });
 
+        // Add the has-cards class after cards are created to add the border
+        cardsContainer.classList.add('has-cards');
+
         // Set the grid layout based on selected difficulty
         const difficulty = difficultySelect.value;
         if (difficulty === 'easy') {
@@ -180,6 +183,10 @@ document.addEventListener('DOMContentLoaded', () => {
         matchesDisplay.textContent = pairsMatched;
     
         stopTimer(); // Stop timer when reset
+        
+        // Remove the has-cards class to remove the border before resetting
+        cardsContainer.classList.remove('has-cards');
+        
         powerUpActivated = false; // Reset power-up state
         consecutiveMatches = 0;  // Reset consecutive matches count
     };
