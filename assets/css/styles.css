@@ -14,15 +14,6 @@ body {
     color: white;
 }
 
-/* Center the cards container within the parent */
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;  /* Center items vertically */
-    height: 100vh;  /* Ensure container takes full viewport height */
-}
-
 /* Card Container */
 .cards-container {
     display: grid;
@@ -35,8 +26,6 @@ body {
     max-width: 520px; /* Max width to avoid stretching */
     box-sizing: border-box; /* Ensures padding and border are included in the width/height calculation */
     transition: border 0.3s ease; /* Smooth transition for border */
-    border: none; /* Initially no border, it will appear dynamically */
-    justify-items: center; /* Center the cards inside the grid cells */
 }
 
 /* Add border when cards are added */
@@ -46,17 +35,17 @@ body {
 
 /* Default grid settings for Easy (4x3) */
 .cards-container.easy {
-    grid-template-rows: repeat(3, 1fr); /* 3 rows for Easy (4x3) */
+    grid-template-rows: repeat(3, 1fr); /* 3 rows for Easy */
 }
 
 /* Grid template for Medium difficulty (4x4) */
 .cards-container.medium {
-    grid-template-rows: repeat(4, 1fr); /* 4 rows for Medium (4x4) */
+    grid-template-rows: repeat(4, 1fr); /* 4 rows for Medium */
 }
 
 /* Grid template for Hard difficulty (4x5) */
 .cards-container.hard {
-    grid-template-rows: repeat(5, 1fr); /* 5 rows for Hard (4x5) */
+    grid-template-rows: repeat(5, 1fr); /* 5 rows for Hard */
 }
 
 /* Card Style */
