@@ -22,8 +22,10 @@ body {
     margin-top: 20px;
     grid-template-columns: repeat(4, 1fr); /* 4 columns for all difficulties */
     padding: 10px; /* Padding inside the grid */
+    width: 100%;  /* Ensure the container width fills up the space */
+    max-width: 520px; /* Max width to avoid stretching */
+    box-sizing: border-box; /* Ensures padding and border are included in the width/height calculation */
     transition: border 0.3s ease; /* Smooth transition for border */
-    border: none; /* Initially no border, it will appear dynamically */
 }
 
 /* Add border when cards are added */
