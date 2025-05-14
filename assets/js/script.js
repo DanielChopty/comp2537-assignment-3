@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalPairs = 0; // Default total pairs
     let flippedCards = [];
     let gameStarted = false;  // Track if the game has started
-
+    let powerUpActivated = false; // Track if power-up is available
+    
     const fetchPokemonData = async () => {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1500');
         const data = await response.json();
@@ -48,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardElement = document.createElement('div');
             cardElement.classList.add('card');
             cardElement.setAttribute('data-id', card.id);
-    
+
             cardElement.innerHTML = `
                 <div class="card-inner flipped"> <!-- Keep card flipped initially -->
                     <div class="card-front"></div>
@@ -59,10 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             cardsContainer.appendChild(cardElement);
         });
-    
-        // Apply the border only after the cards are added
-        cardsContainer.classList.add('has-cards');
-    
+
         // Set the grid layout based on selected difficulty
         const difficulty = difficultySelect.value;
         if (difficulty === 'easy') {
@@ -75,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cardsContainer.classList.add('hard');
             cardsContainer.classList.remove('easy', 'medium');
         }
-    
+
         // Add event listeners to all cards
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', () => flipCard(card));
@@ -108,6 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pairsMatched === totalPairs) {
                 alert("You win!");
                 stopTimer();  // Stop the timer if all pairs are matched
+            }
+            // Enable the power-up after matching a pair
+            if (!powerUpActivated) {
+                powerUpActivated = true;
+                alert("Power-up unlocked! You can now view all cards for 3 seconds.");
             }
         } else {
             setTimeout(() => {
@@ -148,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         flippedCards = [];
         pairsMatched = 0;
         clicks = 0;
-    
+        
         // Reset timer based on selected difficulty
         const difficulty = difficultySelect.value;
         if (difficulty === 'easy') {
@@ -162,9 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
             totalPairs = 10;
         }
     
-        // Remove the border and reset the game state
-        cardsContainer.classList.remove('has-cards');
-    
         // Update the display for total pairs
         totalPairsDisplay.textContent = totalPairs;
         pairsLeftDisplay.textContent = totalPairs; // Reset pairs left
@@ -175,7 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
         matchesDisplay.textContent = pairsMatched;
     
         stopTimer(); // Stop timer when reset
-    };    
+        powerUpActivated = false; // Reset power-up state
+    };
     
     const startGame = async () => {
         if (gameStarted) return; // Prevent starting again while the game is running
@@ -207,7 +208,24 @@ document.addEventListener('DOMContentLoaded', () => {
         await generateGameData();
         createCards();
         startTimer();
-    };    
+    };
+
+    // Power-up functionality: Reveal all cards for 3 seconds
+    const powerUp = () => {
+        if (powerUpActivated) {
+            // Flip all cards
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.add('flipped');
+            });
+            setTimeout(() => {
+                // Flip all cards back after 3 seconds
+                document.querySelectorAll('.card').forEach(card => {
+                    card.classList.remove('flipped');
+                });
+                powerUpActivated = false; // Disable the power-up after use
+            }, 3000);
+        }
+    };
 
     startBtn.addEventListener('click', startGame);
     resetBtn.addEventListener('click', resetGame);
