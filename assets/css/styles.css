@@ -14,15 +14,16 @@ body {
     color: white;
 }
 
-/* Card Styles */
+/* Card Container */
 .cards-container {
     display: grid;
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
     grid-template-columns: repeat(4, 1fr); /* 4 columns for all difficulties */
-    padding: 10px; /* Ensure even spacing between cards and border */
+    padding: 10px; /* Padding inside the grid */
     transition: border 0.3s ease; /* Smooth transition for border */
+    border: none; /* Initially no border, it will appear dynamically */
 }
 
 /* Add border when cards are added */
@@ -51,6 +52,9 @@ body {
     height: 100px;
     perspective: 1000px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card-inner {
