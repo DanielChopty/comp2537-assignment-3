@@ -24,20 +24,23 @@ body {
 
 /* Default grid template for Easy difficulty (4x3) */
 .cards-container.easy {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    grid-template-rows: repeat(3, 1fr); /* 3 rows */
+    grid-auto-rows: 100px;
 }
 
 /* Grid template for Medium difficulty (4x4) */
 .cards-container.medium {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    grid-template-rows: repeat(4, 1fr); /* 4 rows */
+    grid-auto-rows: 100px;
 }
 
 /* Grid template for Hard difficulty (4x5) */
 .cards-container.hard {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    grid-template-rows: repeat(5, 1fr); /* 5 rows */
+    grid-auto-rows: 100px;
 }
 
 .card {
