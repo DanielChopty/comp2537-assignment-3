@@ -150,28 +150,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const difficulty = difficultySelect.value;
         if (difficulty === 'easy') {
             gameTimer = 120;
-        } else if (difficulty === 'medium') {
-            gameTimer = 90;
-        } else if (difficulty === 'hard') {
-            gameTimer = 60;
-        }
-        timerDisplay.textContent = `${gameTimer}s`; // Set timer display to initial time
-
-        // Reset total pairs based on difficulty
-        if (difficulty === 'easy') {
             totalPairs = 6;
         } else if (difficulty === 'medium') {
+            gameTimer = 90;
             totalPairs = 8;
         } else if (difficulty === 'hard') {
+            gameTimer = 60;
             totalPairs = 10;
         }
-        pairsLeftDisplay.textContent = totalPairs;
+    
+        // Update the display for total pairs
+        totalPairsDisplay.textContent = totalPairs;
+        pairsLeftDisplay.textContent = totalPairs; // Reset pairs left
+    
+        // Reset the game state
+        timerDisplay.textContent = `${gameTimer}s`; // Set timer display to initial time
         clicksDisplay.textContent = clicks;
         matchesDisplay.textContent = pairsMatched;
-
+    
         stopTimer(); // Stop timer when reset
     };
-
+    
     const startGame = async () => {
         if (gameStarted) return; // Prevent starting again while the game is running
         
@@ -180,32 +179,29 @@ document.addEventListener('DOMContentLoaded', () => {
         flippedCards = [];
         clicks = 0;
         document.getElementById('clicks').textContent = clicks;
-
+    
         const difficulty = difficultySelect.value;
-
-        // Set initial game timer based on difficulty
+    
+        // Set initial game timer and total pairs based on difficulty
         if (difficulty === 'easy') {
             gameTimer = 120;
-        } else if (difficulty === 'medium') {
-            gameTimer = 90;
-        } else if (difficulty === 'hard') {
-            gameTimer = 60;
-        }
-
-        // Set total pairs based on difficulty
-        if (difficulty === 'easy') {
             totalPairs = 6;
         } else if (difficulty === 'medium') {
+            gameTimer = 90;
             totalPairs = 8;
         } else if (difficulty === 'hard') {
+            gameTimer = 60;
             totalPairs = 10;
         }
-        document.getElementById('pairs-left').textContent = totalPairs;
-
+    
+        // Update the display for total pairs
+        totalPairsDisplay.textContent = totalPairs;
+        pairsLeftDisplay.textContent = totalPairs; // Set pairs left to total pairs
+    
         await generateGameData();
         createCards();
         startTimer();
-    };
+    };    
 
     startBtn.addEventListener('click', startGame);
     resetBtn.addEventListener('click', resetGame);
