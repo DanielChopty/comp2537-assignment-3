@@ -36,12 +36,14 @@ body {
     gap: 10px;
     grid-template-columns: repeat(4, 1fr); /* 4 columns for all difficulties */
     grid-template-rows: repeat(3, 1fr); /* Default 3 rows for Easy */
+    padding: 10px; /* Padding inside the grid */
+    width: 100%;  /* Ensure the container width fills up the space */
     max-width: 520px; /* Max width to avoid stretching */
-    width: 100%;  /* Make the container responsive */
-    padding: 10px;
-    box-sizing: border-box; /* Include padding and border in the width/height calculation */
+    box-sizing: border-box; /* Ensures padding and border are included in the width/height calculation */
+    transition: border 0.3s ease; /* Smooth transition for border */
     border: none; /* Border will be added dynamically */
-    justify-items: center;  /* Center cards inside grid cells */
+    justify-items: center;  /* Center the cards inside grid cells */
+    align-items: center; /* Align the cards within the grid */
 }
 
 /* Add border when cards are added */
