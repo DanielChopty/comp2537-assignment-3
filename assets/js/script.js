@@ -18,12 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameTimer = 100; // Default timer for "easy" difficulty
     let cardData = [];
 
+    // Function to fetch the Pokemon data from the API
     const fetchPokemonData = async () => {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1500');
         const data = await response.json();
         return data.results;
     };
 
+    // Function to generate random game data
     const generateGameData = async () => {
         const pokemonList = await fetchPokemonData();
         const selectedPokemons = [];
@@ -40,10 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }));
     };
 
+    // Function to create the cards dynamically
     const createCards = () => {
         const shuffledCards = [...cardData, ...cardData].sort(() => Math.random() - 0.5);
-        cardsContainer.innerHTML = '';
-        
+        cardsContainer.innerHTML = '';  // Clear existing cards
+
+        // Dynamically create card elements
         shuffledCards.forEach(card => {
             const cardElement = document.createElement('div');
             cardElement.classList.add('card');
@@ -76,10 +80,16 @@ document.addEventListener('DOMContentLoaded', () => {
             totalPairs = 10; // Hard = 10 pairs
         }
 
+        // Update the number of pairs left
         pairsLeftDisplay.textContent = totalPairs;
-        createCards();
+
+        // Add event listeners to flip cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => flipCard(card));
+        });
     };
 
+    // Function to flip cards when clicked
     const flipCard = (card) => {
         if (flippedCards.length === 2 || card.classList.contains('flipped')) return;
         card.classList.add('flipped');
@@ -92,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Function to check if two flipped cards match
     const checkMatch = () => {
         const [firstCard, secondCard] = flippedCards;
         const firstCardImage = firstCard.querySelector('.card-back img').src;
@@ -115,13 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const updateStats = () => {
-        totalPairsDisplay.textContent = totalPairs;
-        pairsLeftDisplay.textContent = totalPairs - pairsMatched;
-        clicksDisplay.textContent = clicks;
-        matchesDisplay.textContent = pairsMatched;
-    };
-
+    // Start timer when the game starts
     const startTimer = () => {
         timer = setInterval(() => {
             if (gameTimer > 0) {
@@ -134,8 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     };
 
+    // Reset the game
     const resetGame = () => {
-        cardsContainer.innerHTML = '';
+        cardsContainer.innerHTML = '';  // Clear existing cards
         createCards();
         pairsMatched = 0;
         clicks = 0;
@@ -146,10 +152,30 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStats();
     };
 
+    // Start the game with the selected difficulty
+    const startGame = async () => {
+        pairsMatched = 0;
+        flippedCards = [];
+        clicks = 0;
+        document.getElementById('clicks').textContent = clicks;
+
+        const difficulty = difficultySelect.value;
+        totalPairs = difficulty === 'easy' ? 6 : (difficulty === 'medium' ? 8 : 10);
+        gameTimer = difficulty === 'easy' ? 100 : (difficulty === 'medium' ? 60 : 45);
+        document.getElementById('pairs-left').textContent = totalPairs;
+
+        await generateGameData();
+        createCards();  // Create the cards after the data is fetched
+        startTimer();   // Start the game timer
+    };
+
+    // Event listener for Start Game button
     startBtn.addEventListener('click', startGame);
+
+    // Event listener for Reset Game button
     resetBtn.addEventListener('click', resetGame);
 
-    // Theme toggle
+    // Theme toggle functionality
     themeToggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
         document.body.classList.toggle('light-theme');
