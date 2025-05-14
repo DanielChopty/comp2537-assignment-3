@@ -7,13 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerDisplay = document.querySelector('#timer');
     const clicksDisplay = document.querySelector('#clicks');
     const pairsLeftDisplay = document.querySelector('#pairs-left');
+    const totalPairsDisplay = document.querySelector('#total-pairs');
+    const matchesDisplay = document.querySelector('#matches');
+    
     let timer;
     let clicks = 0;
     let pairsMatched = 0;
     let totalPairs = 0;
     let flippedCards = [];
+    let gameTimer = 100; // Default timer for "easy" difficulty
     let cardData = [];
-    let gameTimer = 60; // Default timer for "easy" difficulty
 
     const fetchPokemonData = async () => {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1500');
@@ -79,8 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (firstCardId === secondCardId) {
             pairsMatched++;
+            pairsLeftDisplay.textContent = totalPairs - pairsMatched;
+            matchesDisplay.textContent = pairsMatched;
             flippedCards = [];
-            if (pairsMatched === totalPairs) { // All pairs matched
+            if (pairsMatched === totalPairs) {
                 alert("You win!");
             }
         } else {
@@ -90,21 +95,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 flippedCards = [];
             }, 1000);
         }
-        updateStats();
     };
 
     const updateStats = () => {
-        document.getElementById('clicks').textContent = clicks;
-        document.getElementById('pairs-left').textContent = totalPairs - pairsMatched;
+        totalPairsDisplay.textContent = totalPairs;
+        pairsLeftDisplay.textContent = totalPairs - pairsMatched;
+        clicksDisplay.textContent = clicks;
+        matchesDisplay.textContent = pairsMatched;
     };
 
     const startTimer = () => {
-        const timerInterval = setInterval(() => {
+        timer = setInterval(() => {
             if (gameTimer > 0) {
                 gameTimer--;
-                timerDisplay.textContent = gameTimer;
+                timerDisplay.textContent = `${gameTimer}s`;
             } else {
-                clearInterval(timerInterval);
+                clearInterval(timer);
                 alert("Game over! Time's up!");
             }
         }, 1000);
@@ -115,8 +121,10 @@ document.addEventListener('DOMContentLoaded', () => {
         createCards();
         pairsMatched = 0;
         clicks = 0;
-        gameTimer = 60;
-        timerDisplay.textContent = gameTimer;
+        gameTimer = 100;
+        totalPairs = difficultySelect.value === 'easy' ? 6 : (difficultySelect.value === 'medium' ? 8 : 10);
+        pairsLeftDisplay.textContent = totalPairs;
+        timerDisplay.textContent = `${gameTimer}s`;
         updateStats();
     };
 
@@ -128,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const difficulty = difficultySelect.value;
         totalPairs = difficulty === 'easy' ? 6 : (difficulty === 'medium' ? 8 : 10);
-        gameTimer = difficulty === 'easy' ? 60 : (difficulty === 'medium' ? 45 : 30);
+        gameTimer = difficulty === 'easy' ? 100 : (difficulty === 'medium' ? 60 : 45);
         document.getElementById('pairs-left').textContent = totalPairs;
 
         await generateGameData();
