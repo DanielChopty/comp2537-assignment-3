@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameStarted = false;  // Track if the game has started
     let consecutiveMatches = 0;  // Track consecutive matches for power-up
     let powerUpActivated = false; // Track if power-up is available
+    let cardStates = []; // Store the flipped state of each card
     
     const fetchPokemonData = async () => {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1500');
@@ -223,13 +224,25 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("Power-up unlocked! You can now view all cards for 3 seconds.");
 
         // Flip all cards
-        document.querySelectorAll('.card').forEach(card => {
+        const allCards = document.querySelectorAll('.card');
+        allCards.forEach(card => {
             card.classList.add('flipped');
         });
+        
+        // Store the flipped states before showing the power-up
+        cardStates = [];
+        allCards.forEach(card => {
+            cardStates.push(card.classList.contains('flipped'));
+        });
+
         setTimeout(() => {
-            // Flip all cards back after 3 seconds
-            document.querySelectorAll('.card').forEach(card => {
-                card.classList.remove('flipped');
+            // Flip all cards back after 3 seconds and restore previous flipped states
+            allCards.forEach((card, index) => {
+                if (cardStates[index]) {
+                    card.classList.add('flipped');
+                } else {
+                    card.classList.remove('flipped');
+                }
             });
             powerUpActivated = false; // Disable the power-up after use
         }, 3000);
