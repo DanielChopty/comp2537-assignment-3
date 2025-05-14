@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body class="light-theme">
+
     <div class="container my-5">
         <header class="text-center">
             <h1>Pokémon Memory Card Game</h1>
@@ -25,6 +26,7 @@
                 <button id="reset-btn" class="btn btn-danger">Reset Game</button>
                 
                 <div class="d-flex align-items-center">
+                    <!-- Label and dropdown inside a flexbox for proper alignment -->
                     <label for="difficulty" class="me-2">Difficulty:</label>
                     <select id="difficulty" class="form-select d-inline-block">
                         <option value="easy" selected>Easy</option>
@@ -37,7 +39,7 @@
 
         <div class="row justify-content-center">
             <div class="col-12 col-md-8">
-                <div class="cards-container">
+                <div class="cards-container d-flex flex-wrap justify-content-center gap-3">
                     <!-- Cards will be dynamically inserted here -->
                 </div>
             </div>

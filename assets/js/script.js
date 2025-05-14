@@ -65,19 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (difficulty === 'easy') {
             cardsContainer.classList.add('easy');
             cardsContainer.classList.remove('medium', 'hard');
-            totalPairs = 6; // Easy = 6 pairs
         } else if (difficulty === 'medium') {
             cardsContainer.classList.add('medium');
             cardsContainer.classList.remove('easy', 'hard');
-            totalPairs = 8; // Medium = 8 pairs
         } else if (difficulty === 'hard') {
             cardsContainer.classList.add('hard');
             cardsContainer.classList.remove('easy', 'medium');
-            totalPairs = 10; // Hard = 10 pairs
         }
 
-        pairsLeftDisplay.textContent = totalPairs;
-        createCards();
+        // Add event listeners to all cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => flipCard(card));
+        });
     };
 
     const flipCard = (card) => {
@@ -94,6 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const checkMatch = () => {
         const [firstCard, secondCard] = flippedCards;
+        const firstCardId = firstCard.getAttribute('data-id');
+        const secondCardId = secondCard.getAttribute('data-id');
+
         const firstCardImage = firstCard.querySelector('.card-back img').src;
         const secondCardImage = secondCard.querySelector('.card-back img').src;
 
@@ -113,6 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 flippedCards = [];
             }, 1000);
         }
+    };
+
+    const updateStats = () => {
+        totalPairsDisplay.textContent = totalPairs;
+        pairsLeftDisplay.textContent = totalPairs - pairsMatched;
+        clicksDisplay.textContent = clicks;
+        matchesDisplay.textContent = pairsMatched;
     };
 
     const startTimer = () => {
@@ -139,10 +148,26 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStats();
     };
 
+    const startGame = async () => {
+        pairsMatched = 0;
+        flippedCards = [];
+        clicks = 0;
+        document.getElementById('clicks').textContent = clicks;
+
+        const difficulty = difficultySelect.value;
+        totalPairs = difficulty === 'easy' ? 6 : (difficulty === 'medium' ? 8 : 10);
+        gameTimer = difficulty === 'easy' ? 100 : (difficulty === 'medium' ? 60 : 45);
+        document.getElementById('pairs-left').textContent = totalPairs;
+
+        await generateGameData();
+        createCards();
+        startTimer();
+    };
+
     startBtn.addEventListener('click', startGame);
     resetBtn.addEventListener('click', resetGame);
 
-    // Theme toggle functionality
+    // Theme toggle
     themeToggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
         document.body.classList.toggle('light-theme');

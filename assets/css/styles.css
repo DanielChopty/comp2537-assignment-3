@@ -1,4 +1,4 @@
-/* General Body Style */
+/* Custom styles for game */
 body {
     font-family: Arial, sans-serif;
     transition: background-color 0.3s;
@@ -14,33 +14,31 @@ body {
     color: white;
 }
 
-/* Card Container */
+/* Card Styles */
 .cards-container {
     display: grid;
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    grid-auto-rows: 100px; /* Set automatic row height */
 }
 
-/* Default Grid Settings for Easy */
+/* Default grid for Easy difficulty (4x3) */
 .cards-container.easy {
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    grid-template-rows: repeat(3, 1fr); /* 3 rows (Easy Difficulty) */
+    grid-template-rows: repeat(3, 1fr); /* 3 rows (Easy) */
 }
 
-/* Medium Grid Layout */
+/* Grid template for Medium difficulty (4x4) */
 .cards-container.medium {
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    grid-template-rows: repeat(4, 1fr); /* 4 rows (Medium Difficulty) */
+    grid-template-rows: repeat(4, 1fr); /* 4 rows (Medium) */
 }
 
-/* Hard Grid Layout */
+/* Grid template for Hard difficulty (4x5) */
 .cards-container.hard {
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    grid-template-rows: repeat(5, 1fr); /* 5 rows (Hard Difficulty) */
+    grid-template-rows: repeat(5, 1fr); /* 5 rows (Hard) */
 }
 
-/* Card Styles */
 .card {
     width: 100px;
     height: 100px;
