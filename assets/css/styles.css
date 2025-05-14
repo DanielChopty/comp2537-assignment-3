@@ -29,7 +29,7 @@ body {
     gap: 10px;
     margin-top: 20px;
     grid-template-columns: repeat(4, 1fr); /* 4 columns for all difficulties */
-    padding: 15px 1px 15px 15px; /* Padding inside the grid */
+    padding: 16px 1px 16px 16px; /* Padding inside the grid */
     width: 100%;  /* Ensure the container width fills up the space */
     max-width: 520px; /* Max width to avoid stretching */
     box-sizing: border-box; /* Ensures padding and border are included in the width/height calculation */
