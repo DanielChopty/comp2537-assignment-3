@@ -11,12 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const matchesDisplay = document.querySelector('#matches');
     
     let timer;
+    let gameTimer = 0;  // Timer variable to track remaining time
     let clicks = 0;
     let pairsMatched = 0;
     let totalPairs = 0;
     let flippedCards = [];
-    let gameTimer = 100; // Default timer for "easy" difficulty
-    let cardData = [];
+    let gameStarted = false;  // Track if the game has started
 
     const fetchPokemonData = async () => {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1500');
@@ -42,8 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const createCards = () => {
         const shuffledCards = [...cardData, ...cardData].sort(() => Math.random() - 0.5);
-        cardsContainer.innerHTML = '';  // Clear existing cards
-
+        cardsContainer.innerHTML = '';
+        
         shuffledCards.forEach(card => {
             const cardElement = document.createElement('div');
             cardElement.classList.add('card');
@@ -65,24 +65,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (difficulty === 'easy') {
             cardsContainer.classList.add('easy');
             cardsContainer.classList.remove('medium', 'hard');
-            totalPairs = 6; // Easy = 6 pairs
         } else if (difficulty === 'medium') {
             cardsContainer.classList.add('medium');
             cardsContainer.classList.remove('easy', 'hard');
-            totalPairs = 8; // Medium = 8 pairs
         } else if (difficulty === 'hard') {
             cardsContainer.classList.add('hard');
             cardsContainer.classList.remove('easy', 'medium');
-            totalPairs = 10; // Hard = 10 pairs
         }
 
-        // Add the class to show the border when cards are added
-        cardsContainer.classList.add('has-cards');
-
-        // Update the number of pairs left
-        pairsLeftDisplay.textContent = totalPairs;
-
-        // Add event listeners to flip cards
+        // Add event listeners to all cards
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', () => flipCard(card));
         });
@@ -102,6 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const checkMatch = () => {
         const [firstCard, secondCard] = flippedCards;
+        const firstCardId = firstCard.getAttribute('data-id');
+        const secondCardId = secondCard.getAttribute('data-id');
+
         const firstCardImage = firstCard.querySelector('.card-back img').src;
         const secondCardImage = secondCard.querySelector('.card-back img').src;
 
@@ -113,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
             flippedCards = [];
             if (pairsMatched === totalPairs) {
                 alert("You win!");
+                stopTimer();  // Stop the timer if all pairs are matched
             }
         } else {
             setTimeout(() => {
@@ -138,25 +133,34 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 clearInterval(timer);
                 alert("Game over! Time's up!");
+                stopTimer();
             }
         }, 1000);
     };
 
-    const resetGame = () => {
-        cardsContainer.innerHTML = '';  // Clear existing cards
-        cardsContainer.classList.remove('has-cards');  // Remove border
-        createCards();
-        pairsMatched = 0;
-        clicks = 0;
-        gameTimer = 100;
-        totalPairs = difficultySelect.value === 'easy' ? 6 : (difficultySelect.value === 'medium' ? 8 : 10);
-        pairsLeftDisplay.textContent = totalPairs;
-        timerDisplay.textContent = `${gameTimer}s`;
-        updateStats();
+    const stopTimer = () => {
+        clearInterval(timer);
+        gameStarted = false;
     };
 
-    // Start the game with the selected difficulty
+    const resetGame = () => {
+        cardsContainer.innerHTML = '';
+        flippedCards = [];
+        pairsMatched = 0;
+        clicks = 0;
+        gameTimer = 0;  // Reset timer
+        timerDisplay.textContent = "0s";
+        totalPairs = difficultySelect.value === 'easy' ? 6 : (difficultySelect.value === 'medium' ? 8 : 10);
+        pairsLeftDisplay.textContent = totalPairs;
+        clicksDisplay.textContent = clicks;
+        matchesDisplay.textContent = pairsMatched;
+        stopTimer(); // Stop timer when reset
+    };
+
     const startGame = async () => {
+        if (gameStarted) return; // Prevent starting again while the game is running
+        
+        gameStarted = true;  // Mark game as started
         pairsMatched = 0;
         flippedCards = [];
         clicks = 0;
@@ -168,17 +172,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('pairs-left').textContent = totalPairs;
 
         await generateGameData();
-        createCards();  // Create the cards after the data is fetched
-        startTimer();   // Start the game timer
+        createCards();
+        startTimer();
     };
 
-    // Event listener for Start Game button
     startBtn.addEventListener('click', startGame);
-
-    // Event listener for Reset Game button
     resetBtn.addEventListener('click', resetGame);
 
-    // Theme toggle functionality
+    // Theme toggle
     themeToggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
         document.body.classList.toggle('light-theme');
