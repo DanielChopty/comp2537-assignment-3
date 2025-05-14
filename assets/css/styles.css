@@ -65,6 +65,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 3px solid yellow; /* Yellow border for each card */
+    border-radius: 10px; /* Round corners to match the card's curve */
+    overflow: hidden; /* Ensure that nothing overflows outside the curved border */
 }
 
 .card-inner {
