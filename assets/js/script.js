@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('start-btn');
     const resetBtn = document.getElementById('reset-btn');
     const difficultySelect = document.getElementById('difficulty');
-    const themeSelect = document.getElementById('theme');
+    const themeToggleBtn = document.getElementById('theme-toggle');
     const cardsContainer = document.querySelector('.cards-container');
     const timerDisplay = document.querySelector('#timer');
     const clicksDisplay = document.querySelector('#clicks');
@@ -163,7 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
     startBtn.addEventListener('click', startGame);
     resetBtn.addEventListener('click', resetGame);
 
-    themeSelect.addEventListener('change', (e) => {
-        document.body.className = e.target.value + '-theme';
+    // Theme toggle functionality
+    themeToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        document.body.classList.toggle('light-theme');
     });
 });
