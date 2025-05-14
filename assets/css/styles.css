@@ -21,20 +21,21 @@ body {
     justify-content: center;
     margin-top: 20px;
     grid-template-columns: repeat(4, 1fr); /* 4 columns for all difficulties */
-    grid-auto-rows: 100px; /* Set the height of rows */
+    border: 3px solid red;  /* Adding a red border around the grid */
+    padding: 10px;  /* Optional: To give some space inside the border */
 }
 
-/* For Easy difficulty (4x3) */
+/* Default grid settings for Easy (4x3) */
 .cards-container.easy {
     grid-template-rows: repeat(3, 1fr); /* 3 rows for Easy */
 }
 
-/* For Medium difficulty (4x4) */
+/* Grid template for Medium difficulty (4x4) */
 .cards-container.medium {
     grid-template-rows: repeat(4, 1fr); /* 4 rows for Medium */
 }
 
-/* For Hard difficulty (4x5) */
+/* Grid template for Hard difficulty (4x5) */
 .cards-container.hard {
     grid-template-rows: repeat(5, 1fr); /* 5 rows for Hard */
 }
