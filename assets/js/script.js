@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardElement = document.createElement('div');
             cardElement.classList.add('card');
             cardElement.setAttribute('data-id', card.id);
-
+    
             cardElement.innerHTML = `
                 <div class="card-inner flipped"> <!-- Keep card flipped initially -->
                     <div class="card-front"></div>
@@ -59,7 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             cardsContainer.appendChild(cardElement);
         });
-
+    
+        // Apply the border only after the cards are added
+        cardsContainer.classList.add('has-cards');
+    
         // Set the grid layout based on selected difficulty
         const difficulty = difficultySelect.value;
         if (difficulty === 'easy') {
@@ -72,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cardsContainer.classList.add('hard');
             cardsContainer.classList.remove('easy', 'medium');
         }
-
+    
         // Add event listeners to all cards
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', () => flipCard(card));
@@ -145,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         flippedCards = [];
         pairsMatched = 0;
         clicks = 0;
-        
+    
         // Reset timer based on selected difficulty
         const difficulty = difficultySelect.value;
         if (difficulty === 'easy') {
@@ -159,6 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
             totalPairs = 10;
         }
     
+        // Remove the border and reset the game state
+        cardsContainer.classList.remove('has-cards');
+    
         // Update the display for total pairs
         totalPairsDisplay.textContent = totalPairs;
         pairsLeftDisplay.textContent = totalPairs; // Reset pairs left
@@ -169,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         matchesDisplay.textContent = pairsMatched;
     
         stopTimer(); // Stop timer when reset
-    };
+    };    
     
     const startGame = async () => {
         if (gameStarted) return; // Prevent starting again while the game is running
