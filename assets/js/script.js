@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalPairs = 0; // Default total pairs
     let flippedCards = [];
     let gameStarted = false;  // Track if the game has started
-    let initialTime = 120; // Default starting time for easy difficulty
 
     const fetchPokemonData = async () => {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1500');
