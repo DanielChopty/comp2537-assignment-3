@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let pairsMatched = 0;
     let totalPairs = 0;
     let flippedCards = [];
-    let gameTimer = 100; // Default timer for easy difficulty
+    let gameTimer = 100; // Default timer for "easy" difficulty
     let cardData = [];
 
     const fetchPokemonData = async () => {
@@ -63,6 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', () => flipCard(card));
         });
+
+        // Adjust grid layout based on difficulty
+        const difficulty = difficultySelect.value;
+        if (difficulty === 'easy') {
+            cardsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
+        } else if (difficulty === 'medium') {
+            cardsContainer.style.gridTemplateColumns = 'repeat(4, 1fr)';
+        } else if (difficulty === 'hard') {
+            cardsContainer.style.gridTemplateColumns = 'repeat(5, 1fr)';
+        }
     };
 
     const flipCard = (card) => {
