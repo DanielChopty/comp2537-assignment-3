@@ -20,25 +20,26 @@ body {
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    grid-auto-rows: 100px; /* Set automatic row height */
+    grid-template-columns: repeat(4, 1fr); /* 4 columns for all difficulties */
+    grid-auto-rows: 100px; /* Set the height of rows */
 }
 
-/* Default grid for Easy difficulty (4x3) */
+/* For Easy difficulty (4x3) */
 .cards-container.easy {
-    grid-template-rows: repeat(3, 1fr); /* 3 rows (Easy) */
+    grid-template-rows: repeat(3, 1fr); /* 3 rows for Easy */
 }
 
-/* Grid template for Medium difficulty (4x4) */
+/* For Medium difficulty (4x4) */
 .cards-container.medium {
-    grid-template-rows: repeat(4, 1fr); /* 4 rows (Medium) */
+    grid-template-rows: repeat(4, 1fr); /* 4 rows for Medium */
 }
 
-/* Grid template for Hard difficulty (4x5) */
+/* For Hard difficulty (4x5) */
 .cards-container.hard {
-    grid-template-rows: repeat(5, 1fr); /* 5 rows (Hard) */
+    grid-template-rows: repeat(5, 1fr); /* 5 rows for Hard */
 }
 
+/* Card Style */
 .card {
     width: 100px;
     height: 100px;
