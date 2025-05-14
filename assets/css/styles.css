@@ -34,10 +34,11 @@ body {
     height: 100%;
     transform-style: preserve-3d;
     transition: transform 0.6s;
+    transform: rotateY(180deg); /* Keep cards flipped initially */
 }
 
 .card.flipped .card-inner {
-    transform: rotateY(180deg);
+    transform: rotateY(0deg); /* Flip when clicked */
 }
 
 .card-front, .card-back {
@@ -62,6 +63,16 @@ body {
 .card-back {
     background-color: #007BFF;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ensure Pokémon images fit within the card */
+.card-back img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain; /* Keep aspect ratio intact */
 }
 
 /* Buttons and Controls */
