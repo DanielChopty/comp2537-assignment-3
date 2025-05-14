@@ -7,13 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerDisplay = document.querySelector('#timer');
     const clicksDisplay = document.querySelector('#clicks');
     const pairsLeftDisplay = document.querySelector('#pairs-left');
+    const totalPairsDisplay = document.querySelector('#total-pairs');
+    const matchesDisplay = document.querySelector('#matches');
+    
     let timer;
     let clicks = 0;
     let pairsMatched = 0;
     let totalPairs = 0;
     let flippedCards = [];
+    let gameTimer = 100; // Default timer for "easy" difficulty
     let cardData = [];
-    let gameTimer = 60; // Default timer for "easy" difficulty
 
     const fetchPokemonData = async () => {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1500');
@@ -37,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }));
     };
 
-    // Create the cards 
     const createCards = () => {
         const shuffledCards = [...cardData, ...cardData].sort(() => Math.random() - 0.5);
         cardsContainer.innerHTML = '';
@@ -46,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardElement = document.createElement('div');
             cardElement.classList.add('card');
             cardElement.setAttribute('data-id', card.id);
-    
+
             cardElement.innerHTML = `
                 <div class="card-inner flipped"> <!-- Keep card flipped initially -->
                     <div class="card-front"></div>
@@ -55,15 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             `;
-    
             cardsContainer.appendChild(cardElement);
         });
-    
-        // Add click event listeners for each card
+
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', () => flipCard(card));
         });
-    };    
+    };
 
     const flipCard = (card) => {
         if (flippedCards.length === 2 || card.classList.contains('flipped')) return;
@@ -82,10 +82,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const firstCardId = firstCard.getAttribute('data-id');
         const secondCardId = secondCard.getAttribute('data-id');
 
-        if (firstCardId === secondCardId) {
+        const firstCardImage = firstCard.querySelector('.card-back img').src;
+        const secondCardImage = secondCard.querySelector('.card-back img').src;
+
+        // Check if the two cards are the same (match)
+        if (firstCardImage === secondCardImage) {
             pairsMatched++;
+            pairsLeftDisplay.textContent = totalPairs - pairsMatched;
+            matchesDisplay.textContent = pairsMatched;
             flippedCards = [];
-            if (pairsMatched === totalPairs) { // All pairs matched
+            if (pairsMatched === totalPairs) {
                 alert("You win!");
             }
         } else {
@@ -95,21 +101,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 flippedCards = [];
             }, 1000);
         }
-        updateStats();
     };
 
     const updateStats = () => {
-        document.getElementById('clicks').textContent = clicks;
-        document.getElementById('pairs-left').textContent = totalPairs - pairsMatched;
+        totalPairsDisplay.textContent = totalPairs;
+        pairsLeftDisplay.textContent = totalPairs - pairsMatched;
+        clicksDisplay.textContent = clicks;
+        matchesDisplay.textContent = pairsMatched;
     };
 
     const startTimer = () => {
-        const timerInterval = setInterval(() => {
+        timer = setInterval(() => {
             if (gameTimer > 0) {
                 gameTimer--;
-                timerDisplay.textContent = gameTimer;
+                timerDisplay.textContent = `${gameTimer}s`;
             } else {
-                clearInterval(timerInterval);
+                clearInterval(timer);
                 alert("Game over! Time's up!");
             }
         }, 1000);
@@ -120,8 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
         createCards();
         pairsMatched = 0;
         clicks = 0;
-        gameTimer = 60;
-        timerDisplay.textContent = gameTimer;
+        gameTimer = 100;
+        totalPairs = difficultySelect.value === 'easy' ? 6 : (difficultySelect.value === 'medium' ? 8 : 10);
+        pairsLeftDisplay.textContent = totalPairs;
+        timerDisplay.textContent = `${gameTimer}s`;
         updateStats();
     };
 
@@ -133,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const difficulty = difficultySelect.value;
         totalPairs = difficulty === 'easy' ? 6 : (difficulty === 'medium' ? 8 : 10);
-        gameTimer = difficulty === 'easy' ? 60 : (difficulty === 'medium' ? 45 : 30);
+        gameTimer = difficulty === 'easy' ? 100 : (difficulty === 'medium' ? 60 : 45);
         document.getElementById('pairs-left').textContent = totalPairs;
 
         await generateGameData();
