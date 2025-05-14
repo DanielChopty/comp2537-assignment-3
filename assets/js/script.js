@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalPairs = 0;
     let flippedCards = [];
     let gameStarted = false;  // Track if the game has started
+    let initialTime = 120; // Default starting time for easy difficulty
 
     const fetchPokemonData = async () => {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1500');
@@ -148,8 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
         flippedCards = [];
         pairsMatched = 0;
         clicks = 0;
-        gameTimer = 0;  // Reset timer
-        timerDisplay.textContent = "0s";
+        gameTimer = initialTime;  // Reset to initial difficulty timer value
+        timerDisplay.textContent = `${gameTimer}s`; // Set timer display to initial time
         totalPairs = difficultySelect.value === 'easy' ? 6 : (difficultySelect.value === 'medium' ? 8 : 10);
         pairsLeftDisplay.textContent = totalPairs;
         clicksDisplay.textContent = clicks;
@@ -168,7 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const difficulty = difficultySelect.value;
         totalPairs = difficulty === 'easy' ? 6 : (difficulty === 'medium' ? 8 : 10);
-        gameTimer = difficulty === 'easy' ? 100 : (difficulty === 'medium' ? 60 : 45);
+        if (difficulty === 'easy') {
+            gameTimer = 120;
+        } else if (difficulty === 'medium') {
+            gameTimer = 90;
+        } else if (difficulty === 'hard') {
+            gameTimer = 60;
+        }
+        initialTime = gameTimer;  // Store initial time value for reset
         document.getElementById('pairs-left').textContent = totalPairs;
 
         await generateGameData();
