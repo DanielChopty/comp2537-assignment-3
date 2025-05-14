@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalPairs = 0; // Default total pairs
     let flippedCards = [];
     let gameStarted = false;  // Track if the game has started
+    let consecutiveMatches = 0;  // Track consecutive matches for power-up
     let powerUpActivated = false; // Track if power-up is available
     
     const fetchPokemonData = async () => {
@@ -103,16 +104,19 @@ document.addEventListener('DOMContentLoaded', () => {
             pairsLeftDisplay.textContent = totalPairs - pairsMatched;
             matchesDisplay.textContent = pairsMatched;
             flippedCards = [];
+
+            // Check if two consecutive matches happened
+            consecutiveMatches++;
+            if (consecutiveMatches === 2) {
+                activatePowerUp();
+            }
+
             if (pairsMatched === totalPairs) {
                 alert("You win!");
                 stopTimer();  // Stop the timer if all pairs are matched
             }
-            // Enable the power-up after matching a pair
-            if (!powerUpActivated) {
-                powerUpActivated = true;
-                alert("Power-up unlocked! You can now view all cards for 3 seconds.");
-            }
         } else {
+            consecutiveMatches = 0;  // Reset consecutive matches if not a match
             setTimeout(() => {
                 firstCard.classList.remove('flipped');
                 secondCard.classList.remove('flipped');
@@ -176,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         stopTimer(); // Stop timer when reset
         powerUpActivated = false; // Reset power-up state
+        consecutiveMatches = 0;  // Reset consecutive matches count
     };
     
     const startGame = async () => {
@@ -211,20 +216,23 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Power-up functionality: Reveal all cards for 3 seconds
-    const powerUp = () => {
-        if (powerUpActivated) {
-            // Flip all cards
+    const activatePowerUp = () => {
+        if (powerUpActivated) return;  // Prevent reactivating power-up
+        
+        powerUpActivated = true;
+        alert("Power-up unlocked! You can now view all cards for 3 seconds.");
+
+        // Flip all cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.classList.add('flipped');
+        });
+        setTimeout(() => {
+            // Flip all cards back after 3 seconds
             document.querySelectorAll('.card').forEach(card => {
-                card.classList.add('flipped');
+                card.classList.remove('flipped');
             });
-            setTimeout(() => {
-                // Flip all cards back after 3 seconds
-                document.querySelectorAll('.card').forEach(card => {
-                    card.classList.remove('flipped');
-                });
-                powerUpActivated = false; // Disable the power-up after use
-            }, 3000);
-        }
+            powerUpActivated = false; // Disable the power-up after use
+        }, 3000);
     };
 
     startBtn.addEventListener('click', startGame);
