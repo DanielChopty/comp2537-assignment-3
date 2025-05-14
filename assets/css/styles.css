@@ -2,9 +2,14 @@
 body {
     font-family: Arial, sans-serif;
     transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;  /* Take up full height of the viewport */
+    margin: 0;  /* Remove default margin */
 }
 
-/* Light and Dark Theme Styles */
+/* Light and Dark Themes */
 .light-theme {
     background-color: #f4f4f9;
     color: black;
@@ -15,28 +20,28 @@ body {
     color: white;
 }
 
-/* Center the cards container inside the parent */
+/* Container for the game */
 .container {
     display: flex;
     justify-content: center;    /* Center horizontally */
     align-items: center;        /* Center vertically */
     flex-direction: column;     /* Stack content vertically */
-    min-height: 100vh;          /* Ensure the container takes the full height */
+    padding: 20px;
+    width: 100%;
 }
 
-/* Card Container Styles */
+/* Card Container */
 .cards-container {
     display: grid;
     gap: 10px;
-    justify-content: center;
-    margin-top: 20px;
     grid-template-columns: repeat(4, 1fr); /* 4 columns for all difficulties */
-    padding: 10px; /* Padding inside the grid */
-    width: 100%;  /* Ensure the container width fills up the space */
+    grid-template-rows: repeat(3, 1fr); /* Default 3 rows for Easy */
     max-width: 520px; /* Max width to avoid stretching */
-    box-sizing: border-box; /* Ensures padding and border are included in the width/height calculation */
-    transition: border 0.3s ease; /* Smooth transition for border */
-    justify-items: center; /* Center the cards inside the grid cells */
+    width: 100%;  /* Make the container responsive */
+    padding: 10px;
+    box-sizing: border-box; /* Include padding and border in the width/height calculation */
+    border: none; /* Border will be added dynamically */
+    justify-items: center;  /* Center cards inside grid cells */
 }
 
 /* Add border when cards are added */
