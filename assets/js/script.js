@@ -225,35 +225,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Power-up functionality: Reveal all cards for 3 seconds
     const activatePowerUp = () => {
-        if (powerUpActivated) return;  // Prevent reactivating power-up
-        
+        if (powerUpActivated) return;
         powerUpActivated = true;
-        alert("Power-up unlocked! You can now view all cards for 3 seconds.");
-
-        // Flip all cards
+        alert("Power-up unlocked! Revealing all cards for 3 seconds.");
+    
         const allCards = document.querySelectorAll('.card');
-        allCards.forEach(card => {
-            card.classList.add('flipped');
-        });
-        
-        // Store the flipped states before showing the power-up
-        cardStates = [];
-        allCards.forEach(card => {
-            cardStates.push(card.classList.contains('flipped'));
-        });
-
+    
+        // Save the current flipped state BEFORE changing anything
+        cardStates = Array.from(allCards).map(card => card.classList.contains('flipped'));
+    
+        // Flip all cards for the power-up preview
+        allCards.forEach(card => card.classList.add('flipped'));
+    
         setTimeout(() => {
-            // Flip all cards back after 3 seconds and restore previous flipped states
+            // Restore each card to its previous state
             allCards.forEach((card, index) => {
                 if (cardStates[index]) {
-                    card.classList.add('flipped');
+                    card.classList.add('flipped'); // Already flipped before power-up
                 } else {
-                    card.classList.remove('flipped');
+                    card.classList.remove('flipped'); // Was face down before power-up
                 }
             });
-            powerUpActivated = false; // Disable the power-up after use
+            powerUpActivated = false;
         }, 3000);
     };
+    
 
     startBtn.addEventListener('click', startGame);
     resetBtn.addEventListener('click', resetGame);
