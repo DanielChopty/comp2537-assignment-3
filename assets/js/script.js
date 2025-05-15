@@ -86,14 +86,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const flipCard = (card) => {
-        if (flippedCards.length === 2 || card.classList.contains('flipped')) return;
+        if (!gameStarted || flippedCards.length === 2 || card.classList.contains('flipped')) return;
         card.classList.add('flipped');
         flippedCards.push(card);
         clicks++;
         clicksDisplay.textContent = clicks;
-
+    
         if (flippedCards.length === 2) {
-            setTimeout(() => checkMatch(), 500); // Delay for animation
+            setTimeout(() => checkMatch(), 500);
         }
     };
 
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
         startTimer();
     };
 
-    // Power-up functionality: Reveal all cards for 3 seconds
+    // Power-up functionality: Reveal all cards for 3 seconds if two matches in a row
     const activatePowerUp = () => {
         if (powerUpActivated) return;
         powerUpActivated = true;
